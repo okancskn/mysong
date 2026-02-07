@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Song</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            image-rendering: pixelated;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #87CEEB;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Pixel Art Scene */
+        .scene {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Grass */
+        .grass {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40px;
+            background: 
+                repeating-linear-gradient(90deg, #228B22 0px, #228B22 8px, #32CD32 8px, #32CD32 16px);
+            box-shadow: 0 -8px 0 #32CD32;
+        }
+
+        .grass::before {
+            content: '';
+            position: absolute;
+            top: -16px;
+            left: 0;
+            width: 100%;
+            height: 16px;
+            background: 
+                repeating-linear-gradient(90deg, 
+                    transparent 0px, transparent 8px,
+                    #228B22 8px, #228B22 16px,
+                    transparent 16px, transparent 32px);
+        }
+
+        /* Pixel Boy - Mustached Kid */
+        .boy {
+            position: absolute;
+            bottom: 40px;
+            width: 32px;
+            height: 48px;
+            animation: runBoy 8s linear infinite;
+        }
+
+        .boy-sprite {
+            width: 32px;
+            height: 48px;
+            position: relative;
+            animation: boyBounce 0.2s steps(2) infinite;
+        }
+
+        /* Boy Head */
+        .boy-head {
+            position: absolute;
+            top: 0;
+            left: 4px;
+            width: 24px;
+            height: 20px;
+            background: #FFD699;
+            border-radius: 4px;
+        }
+
+        /* Boy Hair */
+        .boy-hair {
+            position: absolute;
+            top: 0;
+            left: 4px;
+            width: 24px;
+            height: 8px;
+            background: #4a3728;
+            border-radius: 4px 4px 0 0;
+        }
+
+        /* Boy Eyes */
+        .boy-eyes {
+            position: absolute;
+            top: 10px;
+            left: 8px;
+            width: 4px;
+            height: 4px;
+            background: #000;
+            box-shadow: 12px 0 0 #000;
+        }
+
+        /* Boy Mustache - The key feature! */
+        .boy-mustache {
+            position: absolute;
+            top: 15px;
+            left: 8px;
+            width: 16px;
+            height: 4px;
+            background: #4a3728;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .boy-mustache::before,
+        .boy-mustache::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            width: 6px;
+            height: 4px;
+            background: #4a3728;
+        }
+
+        .boy-mustache::before { left: -2px; border-radius: 4px 0 0 4px; }
+        .boy-mustache::after { right: -2px; border-radius: 0 4px 4px 0; }
+
+        /* Boy Body */
+        .boy-body {
+            position: absolute;
+            top: 20px;
+            left: 6px;
+            width: 20px;
+            height: 16px;
+            background: #ff6b6b;
+        }
+
+        /* Boy Legs */
+        .boy-legs {
+            position: absolute;
+            top: 36px;
+            left: 8px;
+            width: 6px;
+            height: 12px;
+            background: #4169E1;
+            box-shadow: 10px 0 0 #4169E1;
+            animation: legs 0.2s steps(2) infinite;
+        }
+
+        /* Pixel Bear */
+        .bear {
+            position: absolute;
+            bottom: 40px;
+            width: 48px;
+            height: 48px;
+            animation: runBear 8s linear infinite;
+        }
+
+        .bear-sprite {
+            width: 48px;
+            height: 48px;
+            position: relative;
+            animation: bearBounce 0.3s steps(2) infinite;
+        }
+
+        /* Bear Body */
+        .bear-body {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            width: 32px;
+            height: 28px;
+            background: #8B4513;
+            border-radius: 8px;
+        }
+
+        /* Bear Head */
+        .bear-head {
+            position: absolute;
+            top: 0;
+            left: 4px;
+            width: 28px;
+            height: 24px;
+            background: #A0522D;
+            border-radius: 50%;
+        }
+
+        /* Bear Ears */
+        .bear-ears {
+            position: absolute;
+            top: -4px;
+            left: 4px;
+            width: 8px;
+            height: 8px;
+            background: #8B4513;
+            border-radius: 50%;
+            box-shadow: 16px 0 0 #8B4513;
+        }
+
+        /* Bear Eyes - Angry but cute */
+        .bear-eyes {
+            position: absolute;
+            top: 8px;
+            left: 10px;
+            width: 6px;
+            height: 6px;
+            background: #000;
+            border-radius: 50%;
+            box-shadow: 12px 0 0 #000;
+        }
+
+        .bear-eyes::before,
+        .bear-eyes::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            width: 8px;
+            height: 3px;
+            background: #8B4513;
+            transform: rotate(-15deg);
+        }
+
+        .bear-eyes::before { left: -1px; }
+        .bear-eyes::after { left: 11px; transform: rotate(15deg); }
+
+        /* Bear Nose */
+        .bear-nose {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            width: 8px;
+            height: 6px;
+            background: #000;
+            border-radius: 50%;
+        }
+
+        /* Bear Mouth - Growling */
+        .bear-mouth {
+            position: absolute;
+            top: 18px;
+            left: 12px;
+            width: 12px;
+            height: 4px;
+            border: 2px solid #000;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            animation: growl 0.5s infinite;
+        }
+
+        /* Bear Legs */
+        .bear-legs {
+            position: absolute;
+            bottom: 0;
+            left: 12px;
+            width: 8px;
+            height: 12px;
+            background: #8B4513;
+            box-shadow: 16px 0 0 #8B4513;
+            animation: bearLegs 0.3s steps(2) infinite;
+        }
+
+        /* Bear Claws */
+        .bear-claws {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background: #A0522D;
+            border-radius: 4px;
+            animation: claws 0.4s infinite;
+        }
+
+        .bear-claws::after {
+            content: '';
+            position: absolute;
+            left: 40px;
+            width: 8px;
+            height: 8px;
+            background: #A0522D;
+            border-radius: 4px;
+        }
+
+        /* Animations */
+        @keyframes runBoy {
+            0% { left: 15%; }
+            100% { left: 115%; }
+        }
+
+        @keyframes runBear {
+            0% { left: 5%; }
+            100% { left: 105%; }
+        }
+
+        @keyframes boyBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        @keyframes bearBounce {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-6px) rotate(2deg); }
+        }
+
+        @keyframes legs {
+            0%, 100% { transform: skewX(0deg); }
+            50% { transform: skewX(15deg); }
+        }
+
+        @keyframes bearLegs {
+            0%, 100% { transform: skewX(0deg); }
+            50% { transform: skewX(-20deg); }
+        }
+
+        @keyframes growl {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.5); }
+        }
+
+        @keyframes claws {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(20deg); }
+        }
+
+        /* Clouds */
+        .cloud {
+            position: fixed;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 
+                16px 0 0 #fff,
+                32px 8px 0 #fff,
+                -16px 8px 0 #fff,
+                8px -8px 0 #fff;
+            animation: cloudMove 20s linear infinite;
+            z-index: 1;
+        }
+
+        .cloud:nth-child(1) { top: 10%; left: -100px; width: 24px; height: 16px; animation-duration: 25s; }
+        .cloud:nth-child(2) { top: 20%; left: -150px; width: 32px; height: 20px; animation-duration: 30s; animation-delay: 5s; }
+        .cloud:nth-child(3) { top: 5%; left: -80px; width: 20px; height: 14px; animation-duration: 35s; animation-delay: 10s; }
+
+        @keyframes cloudMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(100vw + 200px)); }
+        }
+
+        /* Trees */
+        .tree {
+            position: fixed;
+            bottom: 40px;
+            z-index: 5;
+        }
+
+        .tree-trunk {
+            width: 16px;
+            height: 32px;
+            background: #8B4513;
+            margin: 0 auto;
+        }
+
+        .tree-top {
+            width: 48px;
+            height: 48px;
+            background: #228B22;
+            border-radius: 8px;
+            position: relative;
+            left: -16px;
+        }
+
+        .tree-top::before {
+            content: '';
+            position: absolute;
+            top: -24px;
+            left: 8px;
+            width: 32px;
+            height: 32px;
+            background: #32CD32;
+            border-radius: 8px;
+        }
+
+        .tree:nth-child(4) { right: 10%; }
+        .tree:nth-child(5) { right: 25%; }
+        .tree:nth-child(6) { left: 5%; }
+
+        /* Sun */
+        .sun {
+            position: fixed;
+            top: 40px;
+            right: 60px;
+            width: 48px;
+            height: 48px;
+            background: #FFD700;
+            border-radius: 50%;
+            box-shadow: 
+                0 0 0 8px rgba(255, 215, 0, 0.3),
+                0 0 0 16px rgba(255, 215, 0, 0.2),
+                0 0 60px 30px rgba(255, 215, 0, 0.4),
+                0 0 100px 60px rgba(255, 215, 0, 0.2);
+            animation: sunPulse 2s infinite;
+            z-index: 1;
+        }
+
+        @keyframes sunPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Sun Rays */
+        .sun-rays {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 70%;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 200, 0.3) 0%,
+                rgba(255, 255, 200, 0.1) 30%,
+                transparent 60%
+            );
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .sun-beam {
+            position: fixed;
+            top: 60px;
+            right: 80px;
+            width: 300px;
+            height: 400px;
+            background: linear-gradient(
+                180deg,
+                rgba(255, 255, 200, 0.2) 0%,
+                rgba(255, 255, 150, 0.1) 50%,
+                transparent 100%
+            );
+            transform: rotate(25deg);
+            transform-origin: top right;
+            pointer-events: none;
+            z-index: 2;
+            animation: beamFlicker 4s ease-in-out infinite;
+        }
+
+        .sun-beam:nth-child(2) {
+            right: 120px;
+            width: 200px;
+            transform: rotate(35deg);
+            opacity: 0.7;
+            animation-delay: 1s;
+        }
+
+        @keyframes beamFlicker {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.9; }
+        }
+
+        /* Fog / Mist Effect */
+        .fog {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(
+                to top,
+                rgba(255, 255, 255, 0.4) 0%,
+                rgba(255, 255, 255, 0.25) 20%,
+                rgba(255, 255, 255, 0.1) 40%,
+                transparent 70%
+            );
+            pointer-events: none;
+            z-index: 8;
+        }
+
+        .fog-layer {
+            position: fixed;
+            bottom: 80px;
+            width: 200%;
+            height: 100px;
+            background: 
+                radial-gradient(ellipse at 10% 50%, rgba(255,255,255,0.5) 0%, transparent 50%),
+                radial-gradient(ellipse at 30% 60%, rgba(255,255,255,0.4) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 40%, rgba(255,255,255,0.5) 0%, transparent 45%),
+                radial-gradient(ellipse at 70% 55%, rgba(255,255,255,0.4) 0%, transparent 40%),
+                radial-gradient(ellipse at 90% 45%, rgba(255,255,255,0.5) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 8;
+            animation: fogMove 20s linear infinite;
+        }
+
+        .fog-layer:nth-child(2) {
+            bottom: 120px;
+            opacity: 0.6;
+            animation: fogMove 25s linear infinite reverse;
+            animation-delay: -5s;
+        }
+
+        @keyframes fogMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Particles / Dust in sunlight */
+        .dust-particles {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 60%;
+            pointer-events: none;
+            z-index: 3;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 200, 0.8);
+            border-radius: 50%;
+            animation: floatParticle 8s linear infinite;
+        }
+
+        .particle:nth-child(1) { top: 10%; right: 20%; animation-delay: 0s; }
+        .particle:nth-child(2) { top: 25%; right: 35%; animation-delay: 1s; width: 3px; height: 3px; }
+        .particle:nth-child(3) { top: 15%; right: 50%; animation-delay: 2s; }
+        .particle:nth-child(4) { top: 35%; right: 25%; animation-delay: 3s; width: 2px; height: 2px; }
+        .particle:nth-child(5) { top: 20%; right: 40%; animation-delay: 4s; }
+        .particle:nth-child(6) { top: 40%; right: 30%; animation-delay: 5s; width: 3px; height: 3px; }
+        .particle:nth-child(7) { top: 30%; right: 15%; animation-delay: 6s; }
+        .particle:nth-child(8) { top: 45%; right: 45%; animation-delay: 7s; width: 2px; height: 2px; }
+
+        @keyframes floatParticle {
+            0% { 
+                transform: translateY(0) translateX(0); 
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { 
+                transform: translateY(100px) translateX(-30px); 
+                opacity: 0;
+            }
+        }
+
+        /* Content Container */
+        .container {
+            text-align: center;
+            padding: 40px;
+            position: relative;
+            z-index: 20;
+        }
+
+        /* Intro Section */
+        .intro {
+            transition: all 0.8s ease;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border: 4px solid #fff;
+            border-radius: 0;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
+        }
+
+        .intro.hidden {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            position: absolute;
+        }
+
+        .intro h1 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 2;
+            text-shadow: 4px 4px 0 #000;
+        }
+
+        .yes-btn {
+            background: #1DB954;
+            color: white;
+            border: 4px solid #fff;
+            padding: 16px 48px;
+            font-size: 1rem;
+            font-family: 'Press Start 2P', cursive;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            box-shadow: 4px 4px 0 #000;
+        }
+
+        .yes-btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 #000;
+        }
+
+        .yes-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: none;
+        }
+
+        /* Song Section */
+        .song {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+            pointer-events: none;
+            position: absolute;
+            width: 100%;
+            left: 0;
+        }
+
+        .song.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+            position: relative;
+        }
+
+        .song-box {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px;
+            border: 4px solid #1DB954;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.3);
+            display: inline-block;
+        }
+
+        .song h2 {
+            color: #1DB954;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .song p {
+            color: #fff;
+            font-size: 0.7rem;
+            margin-bottom: 30px;
+        }
+
+        .music-links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .music-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 32px;
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-family: 'Press Start 2P', cursive;
+            transition: all 0.1s ease;
+            border: 4px solid #fff;
+        }
+
+        .spotify-link {
+            background: #1DB954;
+            color: white;
+            box-shadow: 4px 4px 0 #000;
+        }
+
+        .spotify-link:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 #000;
+        }
+
+        .music-link svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Speech Bubble */
+        .speech-bubble {
+            position: fixed;
+            bottom: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 12px 20px;
+            border: 4px solid #000;
+            font-size: 0.6rem;
+            z-index: 15;
+            animation: bubbleBounce 1s infinite;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: #000;
+        }
+
+        @keyframes bubbleBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .intro h1 { font-size: 0.8rem; }
+            .yes-btn { padding: 12px 32px; font-size: 0.8rem; }
+            .song h2 { font-size: 0.8rem; }
+            .music-link { padding: 12px 24px; font-size: 0.6rem; }
+            .speech-bubble { font-size: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sun Rays -->
+    <div class="sun-rays"></div>
+    <div class="sun-beam"></div>
+    <div class="sun-beam"></div>
+
+    <!-- Dust Particles in sunlight -->
+    <div class="dust-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Clouds -->
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+
+    <!-- Trees -->
+    <div class="tree"><div class="tree-top"></div><div class="tree-trunk"></div></div>
+    <div class="tree"><div class="tree-top"></div><div class="tree-trunk"></div></div>
+    <div class="tree"><div class="tree-top"></div><div class="tree-trunk"></div></div>
+
+    <!-- Sun -->
+    <div class="sun"></div>
+
+    <!-- Fog / Mist -->
+    <div class="fog"></div>
+    <div class="fog-layer"></div>
+    <div class="fog-layer"></div>
+
+    <!-- Speech Bubble -->
+    <div class="speech-bubble">HELP! ANGRY BEAR!</div>
+
+    <!-- Pixel Art Scene -->
+    <div class="scene">
+        <!-- Mustached Boy -->
+        <div class="boy">
+            <div class="boy-sprite">
+                <div class="boy-hair"></div>
+                <div class="boy-head"></div>
+                <div class="boy-eyes"></div>
+                <div class="boy-mustache"></div>
+                <div class="boy-body"></div>
+                <div class="boy-legs"></div>
+            </div>
+        </div>
+
+        <!-- Wild Bear -->
+        <div class="bear">
+            <div class="bear-sprite">
+                <div class="bear-ears"></div>
+                <div class="bear-head">
+                    <div class="bear-eyes"></div>
+                    <div class="bear-nose"></div>
+                    <div class="bear-mouth"></div>
+                </div>
+                <div class="bear-body"></div>
+                <div class="bear-claws"></div>
+                <div class="bear-legs"></div>
+            </div>
+        </div>
+
+        <!-- Grass -->
+        <div class="grass"></div>
+    </div>
+
+    <div class="container">
+        <!-- Intro Section -->
+        <div class="intro" id="intro">
+            <h1>ARE YOU READY TO SEE<br>TODAY'S SONG?</h1>
+            <button class="yes-btn" onclick="showSong()">YES!</button>
+        </div>
+
+        <!-- Song Section -->
+        <div class="song" id="song">
+            <div class="song-box">
+                <h2>TODAY'S SONG!</h2>
+                <p>Click below to listen</p>
+                <div class="music-links">
+                    <a href="https://open.spotify.com/track/2vlDrKpOC0eSTqTDRcbYyw?si=175dc216492c40c7" 
+                       target="_blank" 
+                       class="music-link spotify-link">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                        </svg>
+                        SPOTIFY
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSong() {
+            document.getElementById('intro').classList.add('hidden');
+            document.querySelector('.speech-bubble').textContent = 'GREAT SONG!';
+            setTimeout(() => {
+                document.getElementById('song').classList.add('visible');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
