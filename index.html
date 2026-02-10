@@ -6,10 +6,14 @@
     <title>Today's Song</title>
     
     <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- 🎵 GÜNLÜK ŞARKI LİNKİ - SADECE BURAYI DEĞİŞTİR! 🎵 -->
+    <!-- 🎵 GÜNLÜK ŞARKI VE MESAJ - SADECE BURAYI DEĞİŞTİR! 🎵 -->
     <!-- ═══════════════════════════════════════════════════════════ -->
     <script>
-        const SPOTIFY_LINK = "https://music.apple.com/tr/album/nuevayol/1787022393?i=1787022572";
+        const SPOTIFY_LINK = "https://open.spotify.com/track/2vlDrKpOC0eSTqTDRcbYyw?si=175dc216492c40c7";
+        
+        const DAILY_MESSAGE = `Bugün sana özel bir şarkı seçtim! 🎵
+        
+Umarım günün güzel geçer.`;
     </script>
     <!-- ═══════════════════════════════════════════════════════════ -->
     <style>
@@ -70,98 +74,109 @@
                     transparent 16px, transparent 32px);
         }
 
-        /* Pixel Boy - Mustached Kid */
+        /* Pixel Man - Bearded Adult */
         .boy {
             position: absolute;
             bottom: 40px;
-            width: 32px;
-            height: 48px;
+            width: 40px;
+            height: 56px;
             animation: runBoy 8s linear infinite;
         }
 
         .boy-sprite {
-            width: 32px;
-            height: 48px;
+            width: 40px;
+            height: 56px;
             position: relative;
             animation: boyBounce 0.2s steps(2) infinite;
         }
 
-        /* Boy Head */
+        /* Man Head */
         .boy-head {
             position: absolute;
             top: 0;
-            left: 4px;
-            width: 24px;
-            height: 20px;
-            background: #FFD699;
+            left: 6px;
+            width: 28px;
+            height: 24px;
+            background: #D2A679;
             border-radius: 4px;
         }
 
-        /* Boy Hair */
+        /* Man Hair - Dark black */
         .boy-hair {
             position: absolute;
             top: 0;
-            left: 4px;
-            width: 24px;
-            height: 8px;
-            background: #4a3728;
+            left: 6px;
+            width: 28px;
+            height: 10px;
+            background: #1a1a1a;
             border-radius: 4px 4px 0 0;
         }
 
-        /* Boy Eyes */
+        /* Man Eyes */
         .boy-eyes {
             position: absolute;
-            top: 10px;
-            left: 8px;
+            top: 12px;
+            left: 12px;
             width: 4px;
             height: 4px;
             background: #000;
             box-shadow: 12px 0 0 #000;
         }
 
-        /* Boy Mustache - The key feature! */
+        /* Man Beard - Full beard with mustache */
         .boy-mustache {
             position: absolute;
-            top: 15px;
-            left: 8px;
-            width: 16px;
-            height: 4px;
-            background: #4a3728;
-            border-radius: 0 0 4px 4px;
+            top: 16px;
+            left: 10px;
+            width: 20px;
+            height: 10px;
+            background: #1a1a1a;
+            border-radius: 0 0 6px 6px;
         }
 
-        .boy-mustache::before,
+        /* Mustache part */
+        .boy-mustache::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 2px;
+            width: 16px;
+            height: 4px;
+            background: #1a1a1a;
+            border-radius: 2px;
+        }
+
+        /* Beard shadow */
         .boy-mustache::after {
             content: '';
             position: absolute;
-            top: -2px;
-            width: 6px;
-            height: 4px;
-            background: #4a3728;
+            top: 2px;
+            left: 4px;
+            width: 12px;
+            height: 8px;
+            background: #0d0d0d;
+            border-radius: 0 0 4px 4px;
         }
 
-        .boy-mustache::before { left: -2px; border-radius: 4px 0 0 4px; }
-        .boy-mustache::after { right: -2px; border-radius: 0 4px 4px 0; }
-
-        /* Boy Body */
+        /* Man Body - Larger */
         .boy-body {
             position: absolute;
-            top: 20px;
+            top: 24px;
             left: 6px;
-            width: 20px;
-            height: 16px;
-            background: #ff6b6b;
+            width: 28px;
+            height: 18px;
+            background: #2d5a27;
         }
 
-        /* Boy Legs */
+        /* Man Legs - Longer */
         .boy-legs {
             position: absolute;
-            top: 36px;
-            left: 8px;
-            width: 6px;
-            height: 12px;
-            background: #4169E1;
-            box-shadow: 10px 0 0 #4169E1;
+            top: 42px;
+            left: 10px;
+            width: 8px;
+            height: 14px;
+            background: #3d3d3d;
+            box-shadow: 12px 0 0 #3d3d3d;
             animation: legs 0.2s steps(2) infinite;
         }
 
@@ -479,6 +494,94 @@
             box-shadow: none;
         }
 
+        /* Message Card Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .message-card {
+            background: #fff;
+            border: 4px solid #000;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 8px 8px 0 #000;
+            animation: cardPop 0.3s ease-out;
+        }
+
+        @keyframes cardPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .message-text {
+            font-size: 0.75rem;
+            line-height: 2;
+            color: #333;
+            margin-bottom: 25px;
+            white-space: pre-line;
+        }
+
+        .spotify-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #1DB954;
+            color: #fff;
+            padding: 12px 24px;
+            border: 3px solid #000;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.6rem;
+            box-shadow: 4px 4px 0 #000;
+            transition: all 0.1s;
+        }
+
+        .spotify-link:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 #000;
+        }
+
+        .spotify-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-btn:hover {
+            color: #000;
+        }
+
+        .message-card {
+            position: relative;
+        }
+
         /* Responsive */
         @media (max-width: 600px) {
             .intro h1 { font-size: 0.8rem; }
@@ -539,18 +642,6 @@
 
     <!-- Pixel Art Scene -->
     <div class="scene">
-        <!-- Mustached Boy -->
-        <div class="boy">
-            <div class="boy-sprite">
-                <div class="boy-hair"></div>
-                <div class="boy-head"></div>
-                <div class="boy-eyes"></div>
-                <div class="boy-mustache"></div>
-                <div class="boy-body"></div>
-                <div class="boy-legs"></div>
-            </div>
-        </div>
-
         <!-- Wild Bear -->
         <div class="bear">
             <div class="bear-sprite">
@@ -574,13 +665,43 @@
         <!-- Intro Section -->
         <div class="intro" id="intro">
             <h1>ARE YOU READY TO SEE<br>TODAY'S SONG?</h1>
-            <a id="songLink" href="#" target="_blank" class="yes-btn">YES!</a>
+            <button class="yes-btn" id="openCard">YES!</button>
+        </div>
+    </div>
+
+    <!-- Message Card Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="message-card">
+            <button class="close-btn" id="closeCard">&times;</button>
+            <div class="message-text" id="messageText"></div>
+            <a id="spotifyLink" href="#" target="_blank" class="spotify-link">
+                <svg class="spotify-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                </svg>
+                ŞARKIYI DİNLE
+            </a>
         </div>
     </div>
 
     <script>
-        // Linki butona uygula
-        document.getElementById('songLink').href = SPOTIFY_LINK;
+        // Mesaj ve linki uygula
+        document.getElementById('messageText').textContent = DAILY_MESSAGE;
+        document.getElementById('spotifyLink').href = SPOTIFY_LINK;
+
+        // Modal açma/kapama
+        document.getElementById('openCard').addEventListener('click', function() {
+            document.getElementById('modalOverlay').classList.add('active');
+        });
+
+        document.getElementById('closeCard').addEventListener('click', function() {
+            document.getElementById('modalOverlay').classList.remove('active');
+        });
+
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
