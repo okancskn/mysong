@@ -959,7 +959,7 @@
     <div class="container">
         <!-- Intro Section -->
         <div class="intro" id="intro">
-            <h1>ready?</h1>
+            <h1>are you ready to see<br>today's song?</h1>
             <button class="yes-btn" id="openCard">yes!</button>
         </div>
     </div>
@@ -1094,9 +1094,8 @@
                             if (cfg.ntfyChannel) {
                                 fetch('https://ntfy.sh/' + cfg.ntfyChannel, {
                                     method: 'POST',
-                                    headers: { 'Title': 'Bulmaca Çözüldü! 🎉' },
-                                    body: 'Kelime "' + word + '" doğru tahmin edildi!'
-                                }).catch(function() {});
+                                    body: 'Bulmaca cozuldu! Kelime: ' + word
+                                }).catch(function(err) { console.log('ntfy error:', err); });
                             }
 
                             // 2 sn sonra Spotify'a yönlendir
@@ -1184,4 +1183,3 @@
     </script>
 </body>
 </html>
-
