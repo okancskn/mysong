@@ -705,7 +705,7 @@ bugün için bol şans.`;
             
             /* Adjust characters for mobile */
             .boy { animation-duration: 6s; }
-            .bear { animation-duration: 6s; }
+            .bear { animation-duration: 6s; transform: scale(0.7); transform-origin: bottom center; }
             
             /* Smaller scene */
             .scene { height: 100px; }
@@ -729,6 +729,9 @@ bugün için bol şans.`;
             
             /* Smaller clouds */
             .cloud { transform: scale(0.7); }
+
+            /* Even smaller bear on tiny screens */
+            .bear { transform: scale(0.6); transform-origin: bottom center; }
         }
     </style>
 </head>
