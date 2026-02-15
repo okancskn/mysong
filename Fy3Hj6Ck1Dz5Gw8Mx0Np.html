@@ -959,7 +959,7 @@
     <div class="container">
         <!-- Intro Section -->
         <div class="intro" id="intro">
-            <h1>ready?</h1>
+            <h1>are you ready to see<br>today's song?</h1>
             <button class="yes-btn" id="openCard">yes!</button>
         </div>
     </div>
@@ -1089,6 +1089,16 @@
                             }
                             document.getElementById('guessInput').disabled = true;
                             this.disabled = true;
+
+                            // ntfy.sh ile bildirim gönder
+                            if (cfg.ntfyChannel) {
+                                fetch('https://ntfy.sh/' + cfg.ntfyChannel, {
+                                    method: 'POST',
+                                    headers: { 'Title': 'Bulmaca Çözüldü! 🎉' },
+                                    body: 'Kelime "' + word + '" doğru tahmin edildi!'
+                                }).catch(function() {});
+                            }
+
                             // 2 sn sonra Spotify'a yönlendir
                             if (cfg.spotifyLink) {
                                 setTimeout(function() {
@@ -1174,4 +1184,3 @@
     </script>
 </body>
 </html>
-
