@@ -705,7 +705,15 @@ bugün için bol şans.`;
             
             /* Adjust characters for mobile */
             .boy { animation-duration: 6s; }
-            .bear { animation-duration: 6s; transform: scale(0.7); transform-origin: bottom center; }
+            .bear { animation-duration: 6s; }
+
+            /* Shrink doctor accessories for mobile */
+            .bear-coat { width: 30px; height: 24px; left: 9px; bottom: 8px; border-width: 1px; }
+            .bear-pocket { width: 7px; height: 5px; bottom: 6px; left: 6px; border-width: 1px; }
+            .bear-stethoscope { width: 12px; height: 7px; top: 22px; left: 13px; border-width: 1px; }
+            .bear-stethoscope::after { width: 4px; height: 4px; bottom: -3px; left: 3px; }
+            .bear-mirror { width: 7px; height: 7px; top: -1px; left: 15px; border-width: 1px; }
+            .bear-mirror::before { width: 20px; left: -6px; top: 3px; height: 1px; }
             
             /* Smaller scene */
             .scene { height: 100px; }
@@ -730,8 +738,11 @@ bugün için bol şans.`;
             /* Smaller clouds */
             .cloud { transform: scale(0.7); }
 
-            /* Even smaller bear on tiny screens */
-            .bear { transform: scale(0.6); transform-origin: bottom center; }
+            /* Even smaller doctor accessories on tiny screens */
+            .bear-coat { width: 28px; height: 22px; left: 10px; bottom: 9px; }
+            .bear-pocket { width: 6px; height: 4px; bottom: 5px; left: 5px; }
+            .bear-stethoscope { width: 10px; height: 6px; top: 23px; left: 14px; }
+            .bear-mirror { width: 6px; height: 6px; top: 0px; left: 16px; }
         }
     </style>
 </head>
