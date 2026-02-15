@@ -679,6 +679,185 @@
             position: relative;
         }
 
+        /* Puzzle styles */
+        .puzzle-question {
+            font-size: 0.7rem;
+            line-height: 2;
+            color: #222;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f0f0f0;
+            border: 3px solid #000;
+            border-radius: 4px;
+            white-space: pre-line;
+        }
+
+        .puzzle-reveal-btn {
+            display: inline-block;
+            background: #FF6B35;
+            color: white;
+            border: 3px solid #000;
+            padding: 12px 24px;
+            font-size: 0.6rem;
+            font-family: 'Press Start 2P', cursive;
+            cursor: pointer;
+            box-shadow: 4px 4px 0 #000;
+            transition: all 0.1s;
+            border-radius: 4px;
+        }
+
+        .puzzle-reveal-btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 #000;
+        }
+
+        .puzzle-reveal-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: none;
+        }
+
+        .puzzle-answer {
+            display: none;
+            margin-top: 20px;
+            font-size: 0.75rem;
+            line-height: 2;
+            color: #1DB954;
+            padding: 12px;
+            background: #f9fff9;
+            border: 3px dashed #1DB954;
+            border-radius: 4px;
+            animation: cardPop 0.3s ease-out;
+        }
+
+        .puzzle-answer.show {
+            display: block;
+        }
+
+        /* Word Puzzle styles */
+        .word-puzzle-area {
+            display: none;
+        }
+
+        .word-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .letter-box {
+            width: 44px;
+            height: 50px;
+            border: 3px solid #000;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-family: 'Press Start 2P', cursive;
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .letter-box.revealed {
+            background: #1DB954;
+            color: #fff;
+            border-color: #168a3f;
+            animation: cardPop 0.3s ease-out;
+        }
+
+        .hint-btn {
+            display: inline-block;
+            background: #FF6B35;
+            color: white;
+            border: 3px solid #000;
+            padding: 10px 20px;
+            font-size: 0.55rem;
+            font-family: 'Press Start 2P', cursive;
+            cursor: pointer;
+            box-shadow: 4px 4px 0 #000;
+            transition: all 0.1s;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .hint-btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 #000;
+        }
+
+        .hint-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .hint-counter {
+            font-size: 0.5rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .guess-area {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .guess-input {
+            width: 100%;
+            max-width: 220px;
+            padding: 10px;
+            font-size: 0.8rem;
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            border: 3px solid #000;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            margin-bottom: 10px;
+        }
+
+        .guess-input:focus {
+            outline: none;
+            border-color: #1DB954;
+        }
+
+        .guess-btn {
+            display: inline-block;
+            background: #1DB954;
+            color: white;
+            border: 3px solid #000;
+            padding: 10px 24px;
+            font-size: 0.55rem;
+            font-family: 'Press Start 2P', cursive;
+            cursor: pointer;
+            box-shadow: 4px 4px 0 #000;
+            transition: all 0.1s;
+            border-radius: 4px;
+        }
+
+        .guess-btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 #000;
+        }
+
+        .guess-result {
+            margin-top: 12px;
+            font-size: 0.6rem;
+            line-height: 1.8;
+            display: none;
+        }
+
+        .guess-result.wrong {
+            display: block;
+            color: #e74c3c;
+        }
+
+        .guess-result.correct {
+            display: block;
+            color: #1DB954;
+        }
+
         /* Responsive */
         @media (max-width: 600px) {
             .intro h1 { font-size: 0.8rem; }
@@ -790,30 +969,179 @@
         <div class="message-card">
             <button class="close-btn" id="closeCard">&times;</button>
             <div class="message-text" id="messageText"></div>
+
+            <!-- Spotify modu -->
             <a id="spotifyLink" href="#" class="spotify-link">
                 <svg class="spotify-icon" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
                 </svg>
                 play
             </a>
+
+            <!-- Bulmaca modu -->
+            <div id="puzzleArea" style="display:none;">
+                <div class="puzzle-question" id="puzzleQuestion"></div>
+                <button class="puzzle-reveal-btn" id="puzzleRevealBtn">İpucu / Cevap</button>
+                <div class="puzzle-answer" id="puzzleAnswer"></div>
+            </div>
+
+            <!-- Kelime Bulmacası modu -->
+            <div id="wordPuzzleArea" class="word-puzzle-area">
+                <div class="word-boxes" id="wordBoxes">
+                    <div class="letter-box" id="lb0">?</div>
+                    <div class="letter-box" id="lb1">?</div>
+                    <div class="letter-box" id="lb2">?</div>
+                    <div class="letter-box" id="lb3">?</div>
+                    <div class="letter-box" id="lb4">?</div>
+                </div>
+                <div class="hint-counter" id="hintCounter">kalan harf hakkı: 3</div>
+                <button class="hint-btn" id="hintBtn">🔍 harf al</button>
+                <div class="guess-area" id="guessArea">
+                    <input class="guess-input" id="guessInput" type="text" maxlength="5" placeholder="_ _ _ _ _" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false">
+                    <br><br>
+                    <button class="guess-btn" id="guessBtn">tahmin et!</button>
+                    <div class="guess-result" id="guessResult"></div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // config.json'dan mesaj ve linki çek
+        // Günün indeksini hesapla (her gün farklı bulmaca)
+        function getTodayIndex(total) {
+            var now = new Date();
+            var start = new Date(2026, 0, 1);
+            var diff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+            return diff % total;
+        }
+
+        // Türkçe harf normalizasyonu
+        function trUpper(s) {
+            return s.replace(/i/g, 'İ').replace(/ı/g, 'I').toUpperCase()
+                    .replace(/İ/g, 'İ'); // keep İ
+        }
+        function trNormalize(s) {
+            return s.toUpperCase().replace(/İ/g, 'I').replace(/ı/g, 'I');
+        }
+
+        // config.json'dan ayarları çek
         fetch('config.json?' + Date.now())
             .then(function(r) { return r.json(); })
             .then(function(cfg) {
                 document.getElementById('messageText').textContent = cfg.message;
 
-                // Spotify link - tıklayınca Spotify'ı aç, Safari'de google.com'a yönlendir
-                document.getElementById('spotifyLink').addEventListener('click', function(e) {
-                    e.preventDefault();
-                    window.location.href = cfg.spotifyLink;
-                    setTimeout(function() {
-                        window.location.href = 'https://www.google.com';
-                    }, 1500);
-                });
+                if (cfg.type === 'wordpuzzle') {
+                    // Kelime Bulmacası modu
+                    document.getElementById('spotifyLink').style.display = 'none';
+                    document.getElementById('wordPuzzleArea').style.display = 'block';
+
+                    var word = cfg.word.toUpperCase();
+                    var hintsLeft = 3;
+                    var revealed = [false, false, false, false, false];
+                    var unrevealed = [0, 1, 2, 3, 4];
+
+                    // Harf al butonu
+                    document.getElementById('hintBtn').addEventListener('click', function() {
+                        if (hintsLeft <= 0 || unrevealed.length === 0) return;
+
+                        // Rastgele açılmamış bir harf seç
+                        var randIdx = Math.floor(Math.random() * unrevealed.length);
+                        var pos = unrevealed[randIdx];
+                        unrevealed.splice(randIdx, 1);
+
+                        // Harfi göster
+                        revealed[pos] = true;
+                        var box = document.getElementById('lb' + pos);
+                        box.textContent = word[pos];
+                        box.classList.add('revealed');
+
+                        hintsLeft--;
+                        document.getElementById('hintCounter').textContent = 'kalan harf hakkı: ' + hintsLeft;
+
+                        if (hintsLeft === 0) {
+                            // 3 harf bitti, tahmin zamanı
+                            this.disabled = true;
+                            this.textContent = 'hakkın bitti!';
+                            document.getElementById('guessArea').style.display = 'block';
+                            document.getElementById('guessInput').focus();
+                        }
+                    });
+
+                    // Tahmin butonu
+                    document.getElementById('guessBtn').addEventListener('click', function() {
+                        var guess = document.getElementById('guessInput').value.trim();
+                        if (guess.length !== 5) {
+                            document.getElementById('guessResult').className = 'guess-result wrong';
+                            document.getElementById('guessResult').textContent = '5 harf gir!';
+                            return;
+                        }
+
+                        if (trNormalize(guess) === trNormalize(word)) {
+                            // Doğru!
+                            document.getElementById('guessResult').className = 'guess-result correct';
+                            document.getElementById('guessResult').textContent = 'doğru! tebrikler! 🎉';
+                            // Tüm harfleri aç
+                            for (var i = 0; i < 5; i++) {
+                                var b = document.getElementById('lb' + i);
+                                b.textContent = word[i];
+                                b.classList.add('revealed');
+                            }
+                            document.getElementById('guessInput').disabled = true;
+                            this.disabled = true;
+                            // 2 sn sonra Spotify'a yönlendir
+                            if (cfg.spotifyLink) {
+                                setTimeout(function() {
+                                    window.location.href = cfg.spotifyLink;
+                                    setTimeout(function() {
+                                        window.location.href = 'https://www.google.com';
+                                    }, 1500);
+                                }, 2000);
+                            }
+                        } else {
+                            // Yanlış
+                            document.getElementById('guessResult').className = 'guess-result wrong';
+                            document.getElementById('guessResult').textContent = 'yanlış! 😔';
+                            document.getElementById('guessInput').value = '';
+                            document.getElementById('guessInput').focus();
+                        }
+                    });
+
+                    // Enter tuşu ile de tahmin
+                    document.getElementById('guessInput').addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter') {
+                            document.getElementById('guessBtn').click();
+                        }
+                    });
+
+                } else if (cfg.type === 'puzzle') {
+                    // Bilmece modu
+                    document.getElementById('spotifyLink').style.display = 'none';
+                    document.getElementById('puzzleArea').style.display = 'block';
+
+                    fetch('puzzles.json?' + Date.now())
+                        .then(function(r) { return r.json(); })
+                        .then(function(puzzles) {
+                            var idx = getTodayIndex(puzzles.length);
+                            var p = puzzles[idx];
+                            document.getElementById('puzzleQuestion').textContent = p.question;
+                            document.getElementById('puzzleAnswer').textContent = p.answer;
+                        });
+
+                    document.getElementById('puzzleRevealBtn').addEventListener('click', function() {
+                        var ans = document.getElementById('puzzleAnswer');
+                        ans.classList.toggle('show');
+                        this.textContent = ans.classList.contains('show') ? 'gizle' : 'İpucu / Cevap';
+                    });
+                } else {
+                    // Spotify modu
+                    document.getElementById('spotifyLink').addEventListener('click', function(e) {
+                        e.preventDefault();
+                        window.location.href = cfg.spotifyLink;
+                        setTimeout(function() {
+                            window.location.href = 'https://www.google.com';
+                        }, 1500);
+                    });
+                }
             })
             .catch(function() {
                 document.getElementById('messageText').textContent = 'bugün bir sorun oluştu 😅';
