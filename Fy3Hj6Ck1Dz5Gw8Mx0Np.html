@@ -5,15 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Today's Song</title>
     
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <!-- ═══════════════════════════════════════════════════════════ -->
-    <script>
-        const SPOTIFY_LINK = "https://www.englishcentral.com/blog/ingilizce-motivasyon-sozleri-ve-turkce-anlamlari/";
-        
-        const DAILY_MESSAGE = `bu biir! 🎵
-If you have been brutally broken, but still have the courage to be gentle to others then you deserve a love deeper than the ocean itself.`;
-    </script>
-    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- Config dosyası config.json'dan okunur -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
@@ -808,19 +800,24 @@ If you have been brutally broken, but still have the courage to be gentle to oth
     </div>
 
     <script>
-        // Mesaj ve linki uygula
-        document.getElementById('messageText').textContent = DAILY_MESSAGE;
+        // config.json'dan mesaj ve linki çek
+        fetch('config.json?' + Date.now())
+            .then(function(r) { return r.json(); })
+            .then(function(cfg) {
+                document.getElementById('messageText').textContent = cfg.message;
 
-        // Spotify link - tıklayınca Spotify'ı aç, Safari'de google.com'a yönlendir
-        document.getElementById('spotifyLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            // Spotify'a yönlendir
-            window.location.href = SPOTIFY_LINK;
-            // 1.5 saniye sonra Safari sekmesini google.com'a yönlendir
-            setTimeout(function() {
-                window.location.href = 'https://www.google.com';
-            }, 1500);
-        });
+                // Spotify link - tıklayınca Spotify'ı aç, Safari'de google.com'a yönlendir
+                document.getElementById('spotifyLink').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.location.href = cfg.spotifyLink;
+                    setTimeout(function() {
+                        window.location.href = 'https://www.google.com';
+                    }, 1500);
+                });
+            })
+            .catch(function() {
+                document.getElementById('messageText').textContent = 'bugün bir sorun oluştu 😅';
+            });
 
         // Modal açma/kapama
         document.getElementById('openCard').addEventListener('click', function() {
@@ -839,5 +836,3 @@ If you have been brutally broken, but still have the courage to be gentle to oth
     </script>
 </body>
 </html>
-
-
