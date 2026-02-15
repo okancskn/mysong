@@ -1,6 +1,7 @@
 {
     "type": "wordpuzzle",
-    "message": "5 harfli kelimeyi bul!",
-    "word": "ARŞIN",
-    "spotifyLink": "https://open.spotify.com/track/7axVhEmNFXW0Y3Wkb9mUDX?si=3kM-Dj8xREG8kNCyqbx_fA"
+    "message": "5 harfli kelimeyi bul! 🔤",
+    "word": "KALEM",
+    "spotifyLink": "https://open.spotify.com/track/7axVhEmNFXW0Y3Wkb9mUDX?si=3kM-Dj8xREG8kNCyqbx_fA",
+    "ntfyChannel": "randomsonglistened"
 }
