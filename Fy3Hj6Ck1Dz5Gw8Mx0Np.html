@@ -206,6 +206,113 @@ bugün için bol şans.`;
             border-radius: 8px;
         }
 
+        /* Doctor Coat (Önlük) */
+        .bear-coat {
+            position: absolute;
+            bottom: 6px;
+            left: 6px;
+            width: 36px;
+            height: 30px;
+            background: #ffffff;
+            border-radius: 6px 6px 4px 4px;
+            border: 2px solid #e0e0e0;
+            z-index: 1;
+        }
+
+        /* Coat collar */
+        .bear-coat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 6px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid #f0f0f0;
+            border-right: 10px solid #f0f0f0;
+            border-bottom: 8px solid transparent;
+        }
+
+        /* Coat center line & buttons */
+        .bear-coat::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 16px;
+            width: 2px;
+            height: 16px;
+            background: #ccc;
+            box-shadow:
+                0 0 0 0 #4a90d9,
+                0 4px 0 0 #4a90d9,
+                0 8px 0 0 #4a90d9;
+        }
+
+        /* Coat pocket */
+        .bear-pocket {
+            position: absolute;
+            bottom: 10px;
+            left: 9px;
+            width: 10px;
+            height: 7px;
+            border: 2px solid #ddd;
+            border-top: none;
+            background: #f8f8f8;
+            border-radius: 0 0 2px 2px;
+            z-index: 2;
+        }
+
+        /* Stethoscope */
+        .bear-stethoscope {
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            width: 16px;
+            height: 10px;
+            border: 2px solid #333;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            z-index: 3;
+        }
+
+        /* Stethoscope chest piece */
+        .bear-stethoscope::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 5px;
+            width: 6px;
+            height: 6px;
+            background: #666;
+            border-radius: 50%;
+            border: 1px solid #333;
+        }
+
+        /* Head Mirror */
+        .bear-mirror {
+            position: absolute;
+            top: -2px;
+            left: 14px;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #fff 40%, #cce0ff 70%, #88b0dd 100%);
+            border-radius: 50%;
+            border: 2px solid #999;
+            z-index: 4;
+            box-shadow: 0 0 4px rgba(255,255,255,0.8);
+        }
+
+        /* Head mirror band */
+        .bear-mirror::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: -8px;
+            width: 26px;
+            height: 2px;
+            background: #999;
+            border-radius: 2px;
+        }
+
         /* Bear Head */
         .bear-head {
             position: absolute;
@@ -229,31 +336,32 @@ bugün için bol şans.`;
             box-shadow: 16px 0 0 #8B4513;
         }
 
-        /* Bear Eyes - Angry but cute */
+        /* Bear Eyes - Friendly doctor */
         .bear-eyes {
             position: absolute;
             top: 8px;
             left: 10px;
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             background: #000;
             border-radius: 50%;
             box-shadow: 12px 0 0 #000;
         }
 
+        /* Friendly eyebrow raise */
         .bear-eyes::before,
         .bear-eyes::after {
             content: '';
             position: absolute;
-            top: -4px;
-            width: 8px;
-            height: 3px;
-            background: #8B4513;
-            transform: rotate(-15deg);
+            top: -5px;
+            width: 7px;
+            height: 2px;
+            background: #6B3410;
+            border-radius: 2px;
         }
 
         .bear-eyes::before { left: -1px; }
-        .bear-eyes::after { left: 11px; transform: rotate(15deg); }
+        .bear-eyes::after { left: 11px; }
 
         /* Bear Nose */
         .bear-nose {
@@ -266,7 +374,7 @@ bugün için bol şans.`;
             border-radius: 50%;
         }
 
-        /* Bear Mouth - Growling */
+        /* Bear Mouth - Friendly smile */
         .bear-mouth {
             position: absolute;
             top: 18px;
@@ -276,7 +384,6 @@ bugün için bol şans.`;
             border: 2px solid #000;
             border-top: none;
             border-radius: 0 0 6px 6px;
-            animation: growl 0.5s infinite;
         }
 
         /* Bear Legs */
@@ -641,16 +748,21 @@ bugün için bol şans.`;
 
     <!-- Pixel Art Scene -->
     <div class="scene">
-        <!-- Wild Bear -->
+        <!-- Doctor Bear -->
         <div class="bear">
             <div class="bear-sprite">
                 <div class="bear-ears"></div>
                 <div class="bear-head">
+                    <div class="bear-mirror"></div>
                     <div class="bear-eyes"></div>
                     <div class="bear-nose"></div>
                     <div class="bear-mouth"></div>
                 </div>
                 <div class="bear-body"></div>
+                <div class="bear-coat">
+                    <div class="bear-pocket"></div>
+                </div>
+                <div class="bear-stethoscope"></div>
                 <div class="bear-claws"></div>
                 <div class="bear-legs"></div>
             </div>
